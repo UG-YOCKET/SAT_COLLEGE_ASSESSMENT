@@ -9,33 +9,50 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 # ─────────────────────────────────────────────
 # PAGE CONFIG
 # ─────────────────────────────────────────────
-st.set_page_config(page_title="Yocket Study‑Abroad | University Finder", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="Yocket Study-Abroad | University Finder",
+                   page_icon="🎓", layout="wide")
 
-# BRAND COLOURS
+# Brand colours
 ORANGE = "#FF6B00"
 RED, BLUE, GREEN = "#E53935", "#1E88E5", "#43A047"
-BLACK = "#000000"
 
 # ─────────────────────────────────────────────
-# GLOBAL CSS — force *everything* to black for dark‑mode visibility
+# RESPONSIVE GLOBAL CSS
 # ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
+/* Hide Streamlit chrome */
 #MainMenu, footer {{visibility:hidden;}}
 
-html, body, [data-testid="stApp"] * {{color:{BLACK} !important;}}
-body{{background:#f5f6f7;font-family:'Segoe UI',sans-serif;}}
+/* ---------- LIGHT MODE ---------- */
+html, body, [data-testid="stApp"] * {{
+    color:#111111 !important;
+}}
+body, [data-testid="stApp"] {{
+    background:#FFFFFF !important;
+}}
+
+/* ---------- DARK MODE OVERRIDES ---------- */
+@media (prefers-color-scheme: dark) {{
+  html, body, [data-testid="stApp"] * {{color:#F1F1F1 !important;}}
+  body, [data-testid="stApp"]        {{background:#1b1b1b !important;}}
+  /* keep cards / inputs white so text is readable on both themes */
+  .stTextInput, .stNumberInput, .stMultiSelect, .card {{
+      background:#FFFFFF !important; color:#111 !important;
+  }}
+}}
 
 .hero-title{{font-size:2.4rem;font-weight:800;color:{ORANGE} !important;margin:0;}}
-.hero-sub{{font-size:1.4rem;font-weight:600;margin-top:.3rem;}}
+.hero-sub  {{font-size:1.4rem;font-weight:600;margin-top:.3rem;}}
 .hero-divider{{height:2px;background:{ORANGE};margin:1.6rem 0 2.4rem;}}
 
-.card{{background:#fff;border-radius:14px;max-width:900px;margin:0 auto;padding:2.1rem 2.6rem;box-shadow:0 4px 16px rgba(0,0,0,.06);}}
-.card h3{{margin-bottom:.9rem;}}
+.card{{border-radius:14px;max-width:900px;margin:0 auto;
+      padding:2.1rem 2.6rem;box-shadow:0 4px 16px rgba(0,0,0,.06);}}
 
+/* numbered guide */
 .step{{display:flex;margin:.65rem 0;}}
-.step-num{{min-width:30px;height:30px;border-radius:50%;background:{ORANGE}33;color:{BLACK};font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;margin-right:.6rem;}}
-.step-text{{line-height:1.4rem;}}
+.step-num{{min-width:30px;height:30px;border-radius:50%;background:{ORANGE}33;
+          display:flex;align-items:center;justify-content:center;font-weight:700;}}
 
 @media(max-width:480px){{
   .card{{padding:1.5rem 1.2rem;}}
@@ -46,12 +63,12 @@ body{{background:#f5f6f7;font-family:'Segoe UI',sans-serif;}}
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# HERO & GUIDE
+# HERO / GUIDE
 # ─────────────────────────────────────────────
 st.markdown("""
 <div style='text-align:center'>
-  <div class='hero-title'>YOCKET STUDY‑ABROAD 🎓</div>
-  <div class='hero-sub'>University Finder 2025</div>
+  <div class='hero-title'>YOCKET STUDY-ABROAD 🎓</div>
+  <div class='hero-sub'>University Finder 2025</div>
 </div>
 <div class='hero-divider'></div>
 """, unsafe_allow_html=True)
@@ -60,13 +77,14 @@ st.markdown("""
 <div class='card'>
   <h3>How to use this Finder</h3>
   <div class='step'><div class='step-num'>1</div><div class='step-text'>Choose <strong>countries</strong>.</div></div>
-  <div class='step'><div class='step-num'>2</div><div class='step-text'>Fill in <strong>academic</strong> & <strong>test</strong> scores.</div></div>
-  <div class='step'><div class='step-num'>3</div><div class='step-text'>Add <strong>activities</strong>, internships & LORs.</div></div>
-  <div class='step'><div class='step-num'>4</div><div class='step-text'>Click <strong>Find My Universities</strong>.</div></div>
+  <div class='step'><div class='step-num'>2</div><div class='step-text'>Fill in <strong>academic</strong> &amp; <strong>test</strong> scores.</div></div>
+  <div class='step'><div class='step-num'>3</div><div class='step-text'>Add <strong>activities</strong>, internships &amp; LORs.</div></div>
+  <div class='step'><div class='step-num'>4</div><div class='step-text'>Click <strong>Find My Universities</strong>.</div></div>
 </div>
 """, unsafe_allow_html=True)
 
 st.markdown("### &nbsp;")
+
 
 # ─────────────────────────────────────────────
 # LOAD DATA
