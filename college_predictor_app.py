@@ -24,7 +24,7 @@ BLUE   = "#1E88E5"
 GREEN  = "#43A047"
 
 # ─────────────────────────────────────────────
-# 2. Adaptive CSS (light & dark)
+# 2. Global CSS (light + dark)
 # ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
@@ -45,12 +45,22 @@ body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-s
                  justify-content:center;margin-right:.6rem;}}
 .step-text      {{line-height:1.45rem;}}
 
+/* ---------- Custom university cards ---------- */
+.uni-card       {{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);
+                 padding:1rem 1.2rem;margin-bottom:1.2rem;color:#212121;}}
+.uni-card h4    {{margin:0 0 .3rem 0;font-size:1rem;font-weight:700;}}
+
 /* ---------- Dark-mode overrides ---------- */
 @media (prefers-color-scheme: dark) {{
   body          {{background:#121212 !important;color:#E7E7E7 !important;}}
   .card         {{background:#1E1E1E !important;color:#E7E7E7 !important;}}
   .hero-divider {{background:{ORANGE}AA !important;}}
-  .step-num     {{background:{ORANGE}55 !important;}}
+  /* numbered circles → pure white in dark mode */
+  .step-num     {{background:#FFFFFF !important;color:#000 !important;}}
+  /* Make uni-cards readable in dark mode */
+  .uni-card     {{background:#1E1E1E !important;color:#E7E7E7 !important;}}
+  .uni-card h4  {{color:#FFFFFF !important;}}
+  .uni-card div {{color:#CCCCCC !important;}}
 }}
 
 /* ---------- Mobile tweaks ---------- */
@@ -73,22 +83,24 @@ st.markdown("""
 <div class='hero-divider'></div>
 """, unsafe_allow_html=True)
 
-st.markdown(f"""
-<div class='card'>
-  <h3>How to use this Finder</h3>
-  {"".join([
-    f"<div class='step'><div class='step-num'>{i}</div><div class='step-text'>{t}</div></div>"
-    for i, t in enumerate([
-      "Choose one or more <strong>countries</strong>.",
-      "Enter <strong>academic scores</strong> (Class 9-12 + SAT/ACT).",
-      "Add <strong>AP</strong> test data (optional).",
-      "Add <strong>activities</strong>, internships & extras.",
-      "Select number of <strong>LORs</strong>.",
-      "Click <strong>Find My Universities</strong> for Ambitious-Target-Safe lists."
-    ], 1)
-  ])}
-</div>
-""", unsafe_allow_html=True)
+step_texts = [
+    "Choose one or more <strong>countries</strong>.",
+    "Enter <strong>academic scores</strong> (Class 9-12 + SAT/ACT).",
+    "Add <strong>AP</strong> test data (optional).",
+    "Add <strong>activities</strong>, internships & extras.",
+    "Select number of <strong>LORs</strong>.",
+    "Click <strong>Find My Universities</strong> for Ambitious-Target-Safe lists.",
+]
+st.markdown(
+    "<div class='card'><h3>How to use this Finder</h3>" +
+    "".join(
+        f"<div class='step'><div class='step-num'>{i}</div>"
+        f"<div class='step-text'>{txt}</div></div>"
+        for i, txt in enumerate(step_texts, 1)
+    ) +
+    "</div>",
+    unsafe_allow_html=True,
+)
 
 st.markdown("### &nbsp;")  # spacer
 
@@ -116,15 +128,12 @@ uni_df["Required Profile Score"] = pd.to_numeric(uni_df["Required Profile Score"
 uni_df.rename(columns=str.strip, inplace=True)
 
 # ─────────────────────────────────────────────
-# 5. Country selector
+# 5. Inputs
 # ─────────────────────────────────────────────
 countries = sorted(profile_df["Country"].unique())
 sel = st.multiselect("🌐 Choose Countries", ["All"] + countries, default=["All"])
 filtered_profile = profile_df if "All" in sel else profile_df[profile_df["Country"].isin(sel)]
 
-# ─────────────────────────────────────────────
-# 6. Input form
-# ─────────────────────────────────────────────
 left, right = st.columns(2)
 
 with left:
@@ -142,25 +151,25 @@ with left:
 
 with right:
     st.header("🏅 Activities & Extras")
-    cc      = st.number_input("Co-curricular (0-3)", 0, 3, step=1)
-    ec      = st.number_input("Extra-curricular (0-3)", 0, 3, step=1)
-    intern  = st.number_input("Internships (0-2)", 0, 2, step=1)
+    cc   = st.number_input("Co-curricular (0-3)", 0, 3, step=1)
+    ec   = st.number_input("Extra-curricular (0-3)", 0, 3, step=1)
+    intr = st.number_input("Internships (0-2)", 0, 2, step=1)
     community = 1.0 if st.checkbox("Community Service") else 0.0
     research  = 1.0 if st.checkbox("Research Project") else 0.0
 
     st.header("📄 LORs")
     n_lor = st.number_input("Number of LORs (0-3)", 0, 3, step=1)
 
-# Collate user profile
+# profile dict
 user_profile = {
-    "Class 9": c9,      "Class 10": c10,   "Class 11": c11,   "Class 12": c12,
-    "SAT": sat,         "AP": avg_ap,
-    "CC": cc / 3,       "EC": ec / 3,      "Internship": intern / 2,
+    "Class 9": c9, "Class 10": c10, "Class 11": c11, "Class 12": c12,
+    "SAT": sat, "AP": avg_ap,
+    "CC": cc / 3, "EC": ec / 3, "Internship": intr / 2,
     "Community": community, "Research": research, "LOR": n_lor / 3,
 }
 
 # ─────────────────────────────────────────────
-# 7. Helpers
+# 6. Helpers
 # ─────────────────────────────────────────────
 acad_keys = ["Class 9","Class 10","Class 11","Class 12","SAT","AP"]
 act_keys  = ["CC","EC","Internship","Community","Research"]
@@ -172,51 +181,54 @@ def country_score(row):
 
 def build_pdf(country_scores, gap_view, amb, tgt, safe):
     buf = io.BytesIO()
-    doc = SimpleDocTemplate(buf, pagesize=landscape(A4),
-                            leftMargin=30, rightMargin=30, topMargin=30, bottomMargin=30)
+    doc = SimpleDocTemplate(
+        buf, pagesize=landscape(A4),
+        leftMargin=30, rightMargin=30, topMargin=30, bottomMargin=30,
+    )
     page_w, _ = landscape(A4)
     styles = getSampleStyleSheet()
-    elems = [Paragraph("Yocket Study-Abroad | Personalised University Report", styles['Title']),
-             Spacer(1,12)]
+    elems = [
+        Paragraph("Yocket Study-Abroad | Personalised University Report", styles['Title']),
+        Spacer(1, 12)
+    ]
 
-    def add_table(df, heading):
-        elems.append(Paragraph(heading, styles['Heading2']))
+    def add_table(df, hdr):
+        elems.append(Paragraph(hdr, styles['Heading2']))
         data = [df.columns.tolist()] + df.astype(str).values.tolist()
         if 'University' in df.columns:
-            uni_w   = (page_w-60)*0.35
-            other_w = (page_w-60-uni_w)/(len(df.columns)-1)
-            widths  = [uni_w if c=='University' else other_w for c in df.columns]
+            uni_w = (page_w - 60)*0.35
+            other = (page_w - 60 - uni_w) / (len(df.columns)-1)
+            widths = [uni_w if c=='University' else other for c in df.columns]
         else:
-            widths  = [(page_w-60)/len(df.columns)]*len(df.columns)
+            widths = [(page_w-60)/len(df.columns)]*len(df.columns)
         tbl = Table(data, repeatRows=1, colWidths=widths)
         tbl.setStyle(TableStyle([
             ('GRID',(0,0),(-1,-1),0.25,colors.grey),
             ('BACKGROUND',(0,0),(-1,0),colors.lightgrey),
-            ('VALIGN',(0,0),(-1,-1),'TOP')
+            ('VALIGN',(0,0),(-1,-1),'TOP'),
         ]))
         elems.extend([tbl, Spacer(1,12)])
 
     add_table(country_scores, "Country-wise Profile Score")
-    add_table(gap_view, "University Gap Analysis")
-    if not amb.empty: add_table(amb, "Ambitious Universities")
-    if not tgt.empty: add_table(tgt, "Target Universities")
+    add_table(gap_view,        "University Gap Analysis")
+    if not amb.empty:  add_table(amb,  "Ambitious Universities")
+    if not tgt.empty:  add_table(tgt,  "Target Universities")
     if not safe.empty: add_table(safe, "Safe Universities")
 
     doc.build(elems)
     buf.seek(0)
     return buf
 
-def render_cards(title, df, color):
+def render_cards(title, df, colour):
     st.markdown(f"## {title}")
     for i in range(0, len(df), 3):
         cols = st.columns(3)
         for col, (_, row) in zip(cols, df.iloc[i:i+3].iterrows()):
             with col:
                 st.markdown(f"""
-                <div style='background:#fff;border-top:4px solid {color};border-radius:12px;
-                            box-shadow:0 2px 8px rgba(0,0,0,.04);padding:1rem 1.2rem;margin-bottom:1.2rem;'>
-                  <h4 style='margin:0 0 .3rem 0;font-size:1rem;'>{row['University']}</h4>
-                  <div style='font-size:.8rem;color:#555;margin-bottom:.4rem;'>
+                <div class='uni-card' style='border-top:4px solid {colour};'>
+                  <h4>{row['University']}</h4>
+                  <div style='font-size:.8rem;margin-bottom:.4rem;'>
                     {row['Country']} · QS #{int(row['QS Ranking']) if pd.notna(row['QS Ranking']) else '–'}
                   </div>
                   <div style='font-size:.85rem;line-height:1.35rem;'>
@@ -227,7 +239,7 @@ def render_cards(title, df, color):
                 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# 8. Main button
+# 7. Main action
 # ─────────────────────────────────────────────
 if st.button("🔍 Find My Universities"):
     # Country scores
@@ -237,7 +249,7 @@ if st.button("🔍 Find My Universities"):
     st.dataframe(country_scores.sort_values("Total Profile %", ascending=False)
                               .reset_index(drop=True), use_container_width=True)
 
-    # Map to universities
+    # University gap analysis
     score_map = dict(zip(country_scores["Country"], country_scores["Total Profile %"]))
     uni = uni_df.copy()
     uni["Your Profile %"] = uni["Country"].map(score_map)
@@ -246,25 +258,25 @@ if st.button("🔍 Find My Universities"):
 
     gap_view = uni[["Country","University","QS Ranking","Required Profile Score",
                     "Your Profile %","Gap %"]].sort_values("Gap %", ascending=False)\
-                                               .reset_index(drop=True)
+                     .reset_index(drop=True)
+
     st.subheader("🗺️ University Gap Analysis (positive gap = profile below requirement)")
     st.dataframe(gap_view, use_container_width=True)
 
-    # Anchor for categories
-    pos = gap_view["Gap %"] > 0
-    anchor_idx = gap_view[pos]["Gap %"].idxmin() if pos.any() else \
-                 gap_view["Gap %"].abs().idxmin()
-    target_df    = gap_view.iloc[max(0, anchor_idx-5): anchor_idx+1]
-    ambitious_df = gap_view.iloc[max(0, anchor_idx-11): max(0, anchor_idx-5)]
-    safe_df      = gap_view.iloc[anchor_idx+1: anchor_idx+7]
+    # Categorise around the “anchor” university
+    pos  = gap_view["Gap %"] > 0
+    anch = gap_view[pos]["Gap %"].idxmin() if pos.any() else gap_view["Gap %"].abs().idxmin()
+    tgt  = gap_view.iloc[max(0, anch-5): anch+1]
+    amb  = gap_view.iloc[max(0, anch-11): max(0, anch-5)]
+    safe = gap_view.iloc[anch+1: anch+7]
 
-    if not ambitious_df.empty: render_cards("🚀 Ambitious Universities", ambitious_df, RED)
-    if not target_df.empty:    render_cards("🎯 Target Universities", target_df, BLUE)
-    if not safe_df.empty:      render_cards("🛡️ Safe Universities", safe_df, GREEN)
+    if not amb.empty:  render_cards("🚀 Ambitious Universities", amb,  RED)
+    if not tgt.empty:  render_cards("🎯 Target Universities",    tgt, BLUE)
+    if not safe.empty: render_cards("🛡️ Safe Universities",     safe, GREEN)
 
     st.markdown("---")
     st.markdown("### 📄 Download your full report")
-    pdf_file = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
+    pdf_file = build_pdf(country_scores, gap_view, amb, tgt, safe)
     st.download_button("📄 Download Detailed PDF Report", pdf_file,
                        file_name="university_report.pdf", mime="application/pdf")
 else:
