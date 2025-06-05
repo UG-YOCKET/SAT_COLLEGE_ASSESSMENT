@@ -1,5 +1,6 @@
 # ────────────────────────────────────────────────────────────────────────────────
 # YOCKET STUDY-ABROAD | UNIVERSITY FINDER 2025  (Streamlit)
+# Entire script with one adaptive CSS block – text is legible in **light & dark**
 # ────────────────────────────────────────────────────────────────────────────────
 import streamlit as st
 import pandas as pd
@@ -9,31 +10,31 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 0. PAGE CONFIG
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 0. Page config
+# ─────────────────────────────────────────────
 st.set_page_config(
     page_title="Yocket Study-Abroad | University Finder",
     page_icon="🎓",
     layout="wide",
 )
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 1. BRAND COLOURS
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 1. Brand colours
+# ─────────────────────────────────────────────
 ORANGE = "#FF6B00"
 RED    = "#E53935"
 BLUE   = "#1E88E5"
 GREEN  = "#43A047"
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 2. GLOBAL CSS  (LIGHT + DARK)
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 2. ONE adaptive CSS block (light + dark)
+# ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
 #MainMenu, footer {{visibility:hidden;}}
 
-/* ───────── LIGHT (default) ───────── */
+/* ─── Base (light) ─── */
 body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-serif;}}
 .hero-title     {{font-size:2.4rem;font-weight:800;color:{ORANGE};margin:0;}}
 .hero-sub       {{font-size:1.4rem;font-weight:600;margin-top:.3rem;}}
@@ -50,7 +51,7 @@ body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-s
                  padding:1rem 1.2rem;margin-bottom:1.2rem;color:#212121;}}
 .uni-card h4    {{margin:0 0 .3rem 0;font-size:1rem;font-weight:700;}}
 
-/* ───────── DARK-MODE overrides ───────── */
+/* ─── Dark-mode overrides ─── */
 @media (prefers-color-scheme: dark) {{
   body          {{background:#121212 !important;color:#E7E7E7 !important;}}
   .card         {{background:#1E1E1E !important;color:#E7E7E7 !important;}}
@@ -61,7 +62,7 @@ body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-s
   .uni-card div {{color:#CCCCCC !important;}}
 }}
 
-/* ───────── Mobile tweaks ───────── */
+/* ─── Mobile tweaks ─── */
 @media (max-width:480px) {{
   .card       {{padding:1.5rem 1.2rem;}}
   .hero-title {{font-size:2rem;}}
@@ -70,9 +71,9 @@ body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-s
 </style>
 """, unsafe_allow_html=True)
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 3. HERO   +   QUICK GUIDE
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 3. Hero + quick guide
+# ─────────────────────────────────────────────
 st.markdown("""
 <div style='text-align:center'>
   <div class='hero-title'>YOCKET STUDY-ABROAD 🎓</div>
@@ -87,73 +88,58 @@ guide_steps = [
     "Add <strong>AP</strong> test data (optional).",
     "Add <strong>activities</strong>, internships & extras.",
     "Select number of <strong>LORs</strong>.",
-    "Click <strong>Find My Universities</strong> for Ambitious-Target-Safe lists.",
+    "Click <strong>Find My Universities</strong> for Ambitious-Target-Safe lists."
 ]
 st.markdown(
     "<div class='card'><h3>How to use this Finder</h3>" +
-    "".join(
-        f"<div class='step'><div class='step-num'>{i}</div>"
-        f"<div class='step-text'>{t}</div></div>"
-        for i, t in enumerate(guide_steps, 1)
-    ) +
+    "".join(f"<div class='step'><div class='step-num'>{i}</div><div class='step-text'>{t}</div></div>"
+            for i, t in enumerate(guide_steps, 1)) +
     "</div>",
-    unsafe_allow_html=True,
+    unsafe_allow_html=True
 )
 st.markdown("### &nbsp;")  # spacer
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 4. LOAD & CLEAN DATA
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 4. Load & tidy data
+# ─────────────────────────────────────────────
 EXCEL_PATH = "College Finder UG New.xlsx"
-
 profile_df = pd.read_excel(EXCEL_PATH, sheet_name="College_Finder")
 uni_df     = pd.read_excel(EXCEL_PATH, sheet_name="University")
 
-# -- NORMALISE all column headers (strip + lowercase for matching) -------------
+# Normalise headers
 profile_df.columns = profile_df.columns.str.strip()
 uni_df.columns     = uni_df.columns.str.strip()
-
-# Friendly rename for university sheet (handles many variants)
 rename_uni = {}
-for c in uni_df.columns:
-    key = c.lower().replace(" ", "")
-    if key in {"requiredprofilescore", "profilescore", "requiredprofile", "requiredscore"}:
-        rename_uni[c] = "Required Profile Score"
-    elif key in {"qsranking", "qsrank", "rankqs", "qs"}:
-        rename_uni[c] = "QS Ranking"
-    elif key in {"countryname"}:
-        rename_uni[c] = "Country"
+for col in uni_df.columns:
+    key = col.lower().replace(" ", "")
+    if key.startswith("requiredprofile"):
+        rename_uni[col] = "Required Profile Score"
+    elif key in {"qsranking", "qsrank", "rankqs"}:
+        rename_uni[col] = "QS Ranking"
 uni_df.rename(columns=rename_uni, inplace=True)
 
-# Rename count columns in profile sheet
 profile_df.rename(columns={
-    "CC (Max 3)":        "CC",
-    "EC (Max 3)":        "EC",
+    "CC (Max 3)": "CC",
+    "EC (Max 3)": "EC",
     "Internship (Max 2)": "Internship",
 }, inplace=True)
 
-# Convert numeric fields ⇢ numeric
 num_cols_profile = [
     "Class 9","Class 10","Class 11","Class 12","SAT","AP",
     "CC","EC","Internship","Community","Research","LOR",
 ]
 profile_df[num_cols_profile] = (
-    profile_df[num_cols_profile]
-    .apply(pd.to_numeric, errors="coerce")
-    .fillna(0)
+    profile_df[num_cols_profile].apply(pd.to_numeric, errors="coerce").fillna(0)
 )
-
 uni_df["Required Profile Score"] = pd.to_numeric(
     uni_df["Required Profile Score"], errors="coerce"
 )
-
-# Drop blank/NaN country rows
 profile_df["Country"] = profile_df["Country"].astype(str).str.strip()
 profile_df = profile_df[profile_df["Country"].str.lower() != "nan"]
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 5. INPUTS   (COUNTRY + PROFILE FIELDS)
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 5. User inputs
+# ─────────────────────────────────────────────
 countries = sorted(profile_df["Country"].unique())
 sel = st.multiselect("🌐 Choose Countries", ["All"] + countries, default=["All"])
 filtered_profile = profile_df if "All" in sel else profile_df[profile_df["Country"].isin(sel)]
@@ -185,24 +171,23 @@ with right:
     st.header("📄 LORs")
     n_lor = st.number_input("Number of LORs (0-3)", 0, 3, step=1)
 
-# Collate user-profile fraction values
 user_profile = {
-    "Class 9": c9,   "Class 10": c10,   "Class 11": c11,   "Class 12": c12,
-    "SAT": sat,      "AP": avg_ap,
-    "CC": cc/3,      "EC": ec/3,        "Internship": intr/2,
+    "Class 9": c9, "Class 10": c10, "Class 11": c11, "Class 12": c12,
+    "SAT": sat, "AP": avg_ap,
+    "CC": cc/3, "EC": ec/3, "Internship": intr/2,
     "Community": community, "Research": research, "LOR": n_lor/3,
 }
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 6. HELPER FUNCTIONS
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 6. Helper functions
+# ─────────────────────────────────────────────
 acad_keys = ["Class 9","Class 10","Class 11","Class 12","SAT","AP"]
 act_keys  = ["CC","EC","Internship","Community","Research"]
 
 def country_score(row):
-    total = (sum(user_profile[k]*row[k] for k in acad_keys+act_keys)
-             + user_profile["LOR"]*row["LOR"])
-    return round(total*100, 1)
+    total = (sum(user_profile[k] * row[k] for k in acad_keys + act_keys)
+             + user_profile["LOR"] * row["LOR"])
+    return round(total * 100, 1)
 
 def render_cards(title, df, colour):
     st.markdown(f"## {title}")
@@ -225,25 +210,23 @@ def render_cards(title, df, colour):
 
 def build_pdf(country_scores, gap_view, amb, tgt, safe):
     buf = io.BytesIO()
-    doc = SimpleDocTemplate(
-        buf, pagesize=landscape(A4),
-        leftMargin=30, rightMargin=30, topMargin=30, bottomMargin=30,
-    )
+    doc = SimpleDocTemplate(buf, pagesize=landscape(A4),
+                            leftMargin=30, rightMargin=30,
+                            topMargin=30, bottomMargin=30)
     page_w, _ = landscape(A4)
     styles = getSampleStyleSheet()
     elems  = [Paragraph("Yocket Study-Abroad | Personalised University Report",
-                        styles['Title']),
-              Spacer(1, 12)]
+                        styles['Title']), Spacer(1, 12)]
 
     def add_table(df, hdr):
         elems.append(Paragraph(hdr, styles['Heading2']))
         data = [df.columns.tolist()] + df.astype(str).values.tolist()
         if 'University' in df.columns:
-            uni_w   = (page_w - 60)*0.35
-            other_w = (page_w - 60 - uni_w) / (len(df.columns)-1)
+            uni_w   = (page_w-60)*0.35
+            other_w = (page_w-60-uni_w)/(len(df.columns)-1)
             widths  = [uni_w if c=='University' else other_w for c in df.columns]
         else:
-            widths  = [(page_w - 60)/len(df.columns)]*len(df.columns)
+            widths = [(page_w-60)/len(df.columns)]*len(df.columns)
         tbl = Table(data, repeatRows=1, colWidths=widths)
         tbl.setStyle(TableStyle([
             ('GRID',(0,0),(-1,-1),0.25,colors.grey),
@@ -262,53 +245,44 @@ def build_pdf(country_scores, gap_view, amb, tgt, safe):
     buf.seek(0)
     return buf
 
-# ────────────────────────────────────────────────────────────────────────────────
-# 7. MAIN ACTION BUTTON
-# ────────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# 7. Main action
+# ─────────────────────────────────────────────
 if st.button("🔍 Find My Universities"):
-    # ---- Country-wise score table ----
+    # Country scores
     country_scores = filtered_profile[["Country"]].copy()
     country_scores["Total Profile %"] = filtered_profile.apply(country_score, axis=1)
     st.subheader("🌎 Country-wise Profile Breakdown")
     st.dataframe(country_scores.sort_values("Total Profile %", ascending=False)
-                              .reset_index(drop=True),
-                 use_container_width=True)
+                              .reset_index(drop=True), use_container_width=True)
 
-    # ---- University Gap Analysis (kept *off* the UI) ----
+    # University gap (hidden on-screen)
     score_map = dict(zip(country_scores["Country"], country_scores["Total Profile %"]))
     uni = uni_df.copy()
     uni["Your Profile %"] = uni["Country"].map(score_map)
     uni = uni[uni["Your Profile %"].notna()]
     uni["Gap %"] = (uni["Required Profile Score"] - uni["Your Profile %"]).round(1)
+    gap_view = uni[["Country","University","QS Ranking",
+                    "Required Profile Score","Your Profile %","Gap %"]]\
+               .sort_values("Gap %", ascending=False).reset_index(drop=True)
 
-    gap_view = uni[[ "Country","University","QS Ranking",
-                     "Required Profile Score","Your Profile %","Gap %" ]]
-    gap_view = gap_view.sort_values("Gap %", ascending=False).reset_index(drop=True)
-
-    # 👉 Do NOT display the table:
     st.markdown("*(A detailed university gap analysis is included in your downloadable PDF.)*")
 
-    # ---- Categorise around the anchor uni ----
+    # Categorise
     pos   = gap_view["Gap %"] > 0
-    anchor_idx = (gap_view[pos]["Gap %"].idxmin()
-                  if pos.any()
-                  else gap_view["Gap %"].abs().idxmin())
+    anchor = gap_view[pos]["Gap %"].idxmin() if pos.any() else gap_view["Gap %"].abs().idxmin()
+    target_df = gap_view.iloc[max(0, anchor-5): anchor+1]
+    ambitious_df = gap_view.iloc[max(0, anchor-11): max(0, anchor-5)]
+    safe_df = gap_view.iloc[anchor+1: anchor+7]
 
-    tgt  = gap_view.iloc[max(0, anchor_idx-5): anchor_idx+1]
-    amb  = gap_view.iloc[max(0, anchor_idx-11): max(0, anchor_idx-5)]
-    safe = gap_view.iloc[anchor_idx+1: anchor_idx+7]
+    if not ambitious_df.empty: render_cards("🚀 Ambitious Universities", ambitious_df, RED)
+    if not target_df.empty:    render_cards("🎯 Target Universities",    target_df,   BLUE)
+    if not safe_df.empty:      render_cards("🛡️ Safe Universities",     safe_df,     GREEN)
 
-    if not amb.empty:  render_cards("🚀 Ambitious Universities", amb,  RED)
-    if not tgt.empty:  render_cards("🎯 Target Universities",    tgt, BLUE)
-    if not safe.empty: render_cards("🛡️ Safe Universities",     safe, GREEN)
-
-    # ---- PDF output ----
     st.markdown("---")
     st.markdown("### 📄 Download your full report")
-    pdf_file = build_pdf(country_scores, gap_view, amb, tgt, safe)
-    st.download_button("📄 Download Detailed PDF Report",
-                       pdf_file,
-                       file_name="university_report.pdf",
-                       mime="application/pdf")
+    pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
+    st.download_button("📄 Download Detailed PDF Report", pdf,
+                       file_name="university_report.pdf", mime="application/pdf")
 else:
     st.info("Enter your details above and click **Find My Universities** to generate personalised recommendations.")
