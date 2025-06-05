@@ -242,13 +242,7 @@ def render_cards(title, df, colour):
 # 7. Main action
 # ─────────────────────────────────────────────
 if st.button("🔍 Find My Universities"):
-    # Country scores
-    country_scores = filtered_profile[["Country"]].copy()
-    country_scores["Total Profile %"] = filtered_profile.apply(country_score, axis=1)
-    st.subheader("🌎 Country-wise Profile Breakdown")
-    st.dataframe(country_scores.sort_values("Total Profile %", ascending=False)
-                              .reset_index(drop=True), use_container_width=True)
-
+    ...
     # University gap analysis
     score_map = dict(zip(country_scores["Country"], country_scores["Total Profile %"]))
     uni = uni_df.copy()
@@ -256,12 +250,15 @@ if st.button("🔍 Find My Universities"):
     uni = uni[uni["Your Profile %"].notna()]
     uni["Gap %"] = (uni["Required Profile Score"] - uni["Your Profile %"]).round(1)
 
-    gap_view = uni[["Country","University","QS Ranking","Required Profile Score",
-                    "Your Profile %","Gap %"]].sort_values("Gap %", ascending=False)\
-                     .reset_index(drop=True)
+    gap_view = uni[[
+        "Country","University","QS Ranking",
+        "Required Profile Score","Your Profile %","Gap %"
+    ]].sort_values("Gap %", ascending=False).reset_index(drop=True)
 
-    st.subheader("🗺️ University Gap Analysis (positive gap = profile below requirement)")
-    st.dataframe(gap_view, use_container_width=True)
+    # 🔻 Remove on-screen display (keep for PDF)
+    # st.subheader("🗺️ University Gap Analysis (positive gap = profile below requirement)")
+    # st.dataframe(gap_view, use_container_width=True)
+    st.markdown("*(Full university gap analysis is included in your downloadable PDF report.)*")
 
     # Categorise around the “anchor” university
     pos  = gap_view["Gap %"] > 0
