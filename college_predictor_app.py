@@ -7,38 +7,51 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 
 # ─────────────────────────────────────────────
-# CONFIG & THEME
+# PAGE CONFIG
 # ─────────────────────────────────────────────
 st.set_page_config(page_title="Yocket Study‑Abroad | University Finder", page_icon="🎓", layout="wide")
 
-ORANGE = "#FF6B00"  # Brand accent
-RED    = "#E53935"  # Ambitious
-BLUE   = "#1E88E5"  # Target
-GREEN  = "#43A047"  # Safe
+# BRAND COLOURS
+ORANGE = "#FF6B00"
+RED, BLUE, GREEN = "#E53935", "#1E88E5", "#43A047"
+BLACK = "#000000"
 
+# ─────────────────────────────────────────────
+# GLOBAL CSS — force *everything* to black for dark‑mode visibility
+# ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
 #MainMenu, footer {{visibility:hidden;}}
-body{{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-serif;}}
-.hero-title{{font-size:2.4rem;font-weight:800;color:{ORANGE};margin:0;}}
+
+html, body, [data-testid="stApp"] * {{color:{BLACK} !important;}}
+body{{background:#f5f6f7;font-family:'Segoe UI',sans-serif;}}
+
+.hero-title{{font-size:2.4rem;font-weight:800;color:{ORANGE} !important;margin:0;}}
 .hero-sub{{font-size:1.4rem;font-weight:600;margin-top:.3rem;}}
 .hero-divider{{height:2px;background:{ORANGE};margin:1.6rem 0 2.4rem;}}
+
 .card{{background:#fff;border-radius:14px;max-width:900px;margin:0 auto;padding:2.1rem 2.6rem;box-shadow:0 4px 16px rgba(0,0,0,.06);}}
-.card h3{{font-size:1.65rem;margin-bottom:.9rem;}}
+.card h3{{margin-bottom:.9rem;}}
+
 .step{{display:flex;margin:.65rem 0;}}
-.step-num{{min-width:30px;height:30px;border-radius:50%;background:{ORANGE}33;color:#000;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;margin-right:.6rem;}}
-.step-text{{line-height:1.45rem;}}
-@media(max-width:480px){{.card{{padding:1.5rem 1.2rem;}}.hero-title{{font-size:2rem;}}.hero-sub{{font-size:1.2rem;}}}}
+.step-num{{min-width:30px;height:30px;border-radius:50%;background:{ORANGE}33;color:{BLACK};font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;margin-right:.6rem;}}
+.step-text{{line-height:1.4rem;}}
+
+@media(max-width:480px){{
+  .card{{padding:1.5rem 1.2rem;}}
+  .hero-title{{font-size:2rem;}}
+  .hero-sub{{font-size:1.2rem;}}
+}}
 </style>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# HERO & GUIDE
+# HERO & GUIDE
 # ─────────────────────────────────────────────
 st.markdown("""
 <div style='text-align:center'>
   <div class='hero-title'>YOCKET STUDY‑ABROAD 🎓</div>
-  <div class='hero-sub'>University Finder 2025</div>
+  <div class='hero-sub'>University Finder 2025</div>
 </div>
 <div class='hero-divider'></div>
 """, unsafe_allow_html=True)
@@ -48,8 +61,8 @@ st.markdown("""
   <h3>How to use this Finder</h3>
   <div class='step'><div class='step-num'>1</div><div class='step-text'>Choose <strong>countries</strong>.</div></div>
   <div class='step'><div class='step-num'>2</div><div class='step-text'>Fill in <strong>academic</strong> & <strong>test</strong> scores.</div></div>
-  <div class='step'><div class='step-num'>3</div><div class='step-text'>Add <strong>activities</strong>, internships, LORs.</div></div>
-  <div class='step'><div class='step-num'>4</div><div class='step-text'>Hit <strong>Find My Universities</strong> ↴</div></div>
+  <div class='step'><div class='step-num'>3</div><div class='step-text'>Add <strong>activities</strong>, internships & LORs.</div></div>
+  <div class='step'><div class='step-num'>4</div><div class='step-text'>Click <strong>Find My Universities</strong>.</div></div>
 </div>
 """, unsafe_allow_html=True)
 
