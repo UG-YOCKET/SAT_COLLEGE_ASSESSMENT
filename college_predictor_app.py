@@ -42,54 +42,43 @@ body{{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-serif;}}
 # 1. Global styling & helpers
 # HERO & GUIDE
 # ─────────────────────────────────────────────
-ORANGE = "#FF6B00"  # Yocket brand
+ORANGE = "#FF6B00"
 
-st.markdown(
-    f"""
-    <style>
-    /* Hide default Streamlit chrome */
-    #MainMenu, footer {{visibility:hidden;}}
+st.markdown(f"""
+<style>
+/* ---------- Base styles (light) ---------- */
+body            {{ background:#f5f6f7; color:#212121; font-family:'Segoe UI',sans-serif; }}
+.hero-title     {{ font-size:2.4rem; font-weight:800; color:{ORANGE}; margin:0; }}
+.hero-sub       {{ font-size:1.4rem; font-weight:600; margin-top:.3rem; }}
+.hero-divider   {{ height:2px; background:{ORANGE}; margin:1.6rem 0 2.4rem; }}
+.card           {{ background:#fff; border-radius:14px; max-width:900px; margin:0 auto;
+                   padding:2.1rem 2.6rem; box-shadow:0 4px 16px rgba(0,0,0,.06); color:#212121; }}
+.card h3        {{ font-size:1.65rem; margin-bottom:.9rem; }}
+.step           {{ display:flex; margin:.65rem 0; }}
+.step-num       {{ min-width:30px; height:30px; border-radius:50%;
+                   background:{ORANGE}33; color:#000; font-weight:700; font-size:.85rem;
+                   display:flex; align-items:center; justify-content:center; margin-right:.6rem; }}
+.step-text      {{ line-height:1.45rem; }}
 
-    body{{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-serif;}}
-    .hero-title{{font-size:2.4rem;font-weight:800;color:{ORANGE};margin:0;}}
-    .hero-sub  {{font-size:1.4rem;font-weight:600;margin-top:.3rem;}}
-    .hero-divider{{height:2px;background:{ORANGE};margin:1.6rem 0 2.4rem;}}
+/* ---------- Dark-mode overrides ---------- */
+@media (prefers-color-scheme: dark) {{
+    body          {{ background:#121212 !important; color:#E7E7E7 !important; }}
+    .card         {{ background:#1E1E1E !important; color:#E7E7E7 !important; }}
+    .hero-divider {{ background:{ORANGE}AA !important; }}
+    /* Optional: soften orange badge in dark mode */
+    .step-num     {{ background:{ORANGE}55 !important; }}
+}}
 
-    .card{{background:#fff;border-radius:14px;max-width:900px;margin:0 auto;
-          padding:2.1rem 2.6rem;box-shadow:0 4px 16px rgba(0,0,0,.06);color:#000;}}
-    .card h3{{font-size:1.65rem;margin-bottom:.9rem;}}
+/* ---------- Mobile tweaks ---------- */
+@media (max-width:480px) {{
+    .card       {{ padding:1.5rem 1.2rem; }}
+    .hero-title {{ font-size:2rem; }}
+    .hero-sub   {{ font-size:1.2rem; }}
+}}
 
-    .step{{display:flex;margin:.65rem 0;}}
-    .step-num{{min-width:30px;height:30px;border-radius:50%;background:{ORANGE}33;
-              color:#000;font-weight:700;font-size:.85rem;display:flex;align-items:center;
-              justify-content:center;margin-right:.6rem;}}
-    .step-text{{line-height:1.45rem;}}
-
-    @media(max-width:480px){{
-      .card{{padding:1.5rem 1.2rem;}}
-      .hero-title{{font-size:2rem;}}
-      .hero-sub{{font-size:1.2rem;}}
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-st.markdown("""
-<div style='text-align:center'>
-  <div class='hero-title'>YOCKET STUDY‑ABROAD 🎓</div>
-  <div class='hero-sub'>University Finder 2025</div>
-</div>
-<div class='hero-divider'></div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class='card'>
-  <h3>How to use this Finder</h3>
-  <div class='step'><div class='step-num'>1</div><div class='step-text'>Choose <strong>countries</strong>.</div></div>
-  <div class='step'><div class='step-num'>2</div><div class='step-text'>Fill in <strong>academic</strong> & <strong>test</strong> scores.</div></div>
-  <div class='step'><div class='step-num'>3</div><div class='step-text'>Add <strong>activities</strong>, internships, LORs.</div></div>
-  <div class='step'><div class='step-num'>4</div><div class='step-text'>Hit <strong>Find My Universities</strong> ↴</div></div>
-</div>
+/* Hide default Streamlit chrome */
+#MainMenu, footer {{ visibility:hidden; }}
+</style>
 """, unsafe_allow_html=True)
 
 st.markdown("### &nbsp;")
