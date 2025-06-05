@@ -17,28 +17,52 @@ ORANGE = "#FF6B00"
 RED, BLUE, GREEN = "#E53935", "#1E88E5", "#43A047"
 
 # ─────────────────────────────────────────────
-# RESPONSIVE GLOBAL CSS
+# GLOBAL CSS  (light + dark modes)
 # ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
 /* Hide Streamlit chrome */
 #MainMenu, footer {{visibility:hidden;}}
 
-/* ---------- LIGHT MODE ---------- */
-html, body, [data-testid="stApp"] * {{
+/* ---------- LIGHT THEME ---------- */
+html, body, [data-testid="stApp"] *,
+html, body, [data-testid="stApp"] h1,
+html, body, [data-testid="stApp"] h2,
+html, body, [data-testid="stApp"] h3,
+html, body, [data-testid="stApp"] h4,
+html, body, [data-testid="stApp"] h5,
+html, body, [data-testid="stApp"] h6,
+html, body, [data-testid="stApp"] label {{
     color:#111111 !important;
 }}
 body, [data-testid="stApp"] {{
     background:#FFFFFF !important;
+    font-family:'Segoe UI',sans-serif;
 }}
 
-/* ---------- DARK MODE OVERRIDES ---------- */
+/* ---------- DARK THEME OVERRIDES ---------- */
 @media (prefers-color-scheme: dark) {{
-  html, body, [data-testid="stApp"] * {{color:#F1F1F1 !important;}}
-  body, [data-testid="stApp"]        {{background:#1b1b1b !important;}}
-  /* keep cards / inputs white so text is readable on both themes */
-  .stTextInput, .stNumberInput, .stMultiSelect, .card {{
-      background:#FFFFFF !important; color:#111 !important;
+  html, body, [data-testid="stApp"] *,
+  html, body, [data-testid="stApp"] h1,
+  html, body, [data-testid="stApp"] h2,
+  html, body, [data-testid="stApp"] h3,
+  html, body, [data-testid="stApp"] h4,
+  html, body, [data-testid="stApp"] h5,
+  html, body, [data-testid="stApp"] h6,
+  html, body, [data-testid="stApp"] label {{
+      color:#F1F1F1 !important;
+  }}
+  body, [data-testid="stApp"] {{background:#1b1b1b !important;}}
+
+  /* widget surfaces */
+  .stTextInput, .stNumberInput, .stSelectbox, .stMultiSelect {{
+      background:#1d1d1d !important;
+      border:1px solid #333 !important;
+      color:#F1F1F1 !important;
+  }}
+  .stTextInput input, .stNumberInput input,
+  .stSelectbox div, .stMultiSelect div {{
+      color:#F1F1F1 !important;
   }}
 }}
 
@@ -49,7 +73,6 @@ body, [data-testid="stApp"] {{
 .card{{border-radius:14px;max-width:900px;margin:0 auto;
       padding:2.1rem 2.6rem;box-shadow:0 4px 16px rgba(0,0,0,.06);}}
 
-/* numbered guide */
 .step{{display:flex;margin:.65rem 0;}}
 .step-num{{min-width:30px;height:30px;border-radius:50%;background:{ORANGE}33;
           display:flex;align-items:center;justify-content:center;font-weight:700;}}
@@ -84,8 +107,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("### &nbsp;")
-
-
 # ─────────────────────────────────────────────
 # LOAD DATA
 # ─────────────────────────────────────────────
