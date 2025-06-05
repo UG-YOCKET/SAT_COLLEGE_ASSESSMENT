@@ -28,10 +28,9 @@ GREEN  = "#43A047"
 # ─────────────────────────────────────────────
 st.markdown(f"""
 <style>
-/* Hide Streamlit chrome */
 #MainMenu, footer {{visibility:hidden;}}
 
-/* ---------- Light (default) ---------- */
+/* ---------- Light ---------- */
 body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-serif;}}
 .hero-title     {{font-size:2.4rem;font-weight:800;color:{ORANGE};margin:0;}}
 .hero-sub       {{font-size:1.4rem;font-weight:600;margin-top:.3rem;}}
@@ -44,26 +43,22 @@ body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-s
                  color:#000;font-weight:700;font-size:.85rem;display:flex;align-items:center;
                  justify-content:center;margin-right:.6rem;}}
 .step-text      {{line-height:1.45rem;}}
-
-/* ---------- Custom university cards ---------- */
 .uni-card       {{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);
                  padding:1rem 1.2rem;margin-bottom:1.2rem;color:#212121;}}
 .uni-card h4    {{margin:0 0 .3rem 0;font-size:1rem;font-weight:700;}}
 
-/* ---------- Dark-mode overrides ---------- */
+/* ---------- Dark mode ---------- */
 @media (prefers-color-scheme: dark) {{
   body          {{background:#121212 !important;color:#E7E7E7 !important;}}
   .card         {{background:#1E1E1E !important;color:#E7E7E7 !important;}}
   .hero-divider {{background:{ORANGE}AA !important;}}
-  /* numbered circles → pure white in dark mode */
   .step-num     {{background:#FFFFFF !important;color:#000 !important;}}
-  /* Make uni-cards readable in dark mode */
   .uni-card     {{background:#1E1E1E !important;color:#E7E7E7 !important;}}
   .uni-card h4  {{color:#FFFFFF !important;}}
   .uni-card div {{color:#CCCCCC !important;}}
 }}
 
-/* ---------- Mobile tweaks ---------- */
+/* ---------- Mobile ---------- */
 @media (max-width:480px) {{
   .card       {{padding:1.5rem 1.2rem;}}
   .hero-title {{font-size:2rem;}}
@@ -73,7 +68,7 @@ body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-s
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# 3. Hero + quick guide
+# 3. Hero + guide
 # ─────────────────────────────────────────────
 st.markdown("""
 <div style='text-align:center'>
@@ -83,7 +78,7 @@ st.markdown("""
 <div class='hero-divider'></div>
 """, unsafe_allow_html=True)
 
-step_texts = [
+steps = [
     "Choose one or more <strong>countries</strong>.",
     "Enter <strong>academic scores</strong> (Class 9-12 + SAT/ACT).",
     "Add <strong>AP</strong> test data (optional).",
@@ -96,13 +91,12 @@ st.markdown(
     "".join(
         f"<div class='step'><div class='step-num'>{i}</div>"
         f"<div class='step-text'>{txt}</div></div>"
-        for i, txt in enumerate(step_texts, 1)
+        for i, txt in enumerate(steps, 1)
     ) +
     "</div>",
     unsafe_allow_html=True,
 )
-
-st.markdown("### &nbsp;")  # spacer
+st.markdown("### &nbsp;")
 
 # ─────────────────────────────────────────────
 # 4. Load data
@@ -160,7 +154,6 @@ with right:
     st.header("📄 LORs")
     n_lor = st.number_input("Number of LORs (0-3)", 0, 3, step=1)
 
-# profile dict
 user_profile = {
     "Class 9": c9, "Class 10": c10, "Class 11": c11, "Class 12": c12,
     "SAT": sat, "AP": avg_ap,
@@ -187,10 +180,8 @@ def build_pdf(country_scores, gap_view, amb, tgt, safe):
     )
     page_w, _ = landscape(A4)
     styles = getSampleStyleSheet()
-    elems = [
-        Paragraph("Yocket Study-Abroad | Personalised University Report", styles['Title']),
-        Spacer(1, 12)
-    ]
+    elems = [Paragraph("Yocket Study-Abroad | Personalised University Report", styles['Title']),
+             Spacer(1, 12)]
 
     def add_table(df, hdr):
         elems.append(Paragraph(hdr, styles['Heading2']))
@@ -214,7 +205,6 @@ def build_pdf(country_scores, gap_view, amb, tgt, safe):
     if not amb.empty:  add_table(amb,  "Ambitious Universities")
     if not tgt.empty:  add_table(tgt,  "Target Universities")
     if not safe.empty: add_table(safe, "Safe Universities")
-
     doc.build(elems)
     buf.seek(0)
     return buf
@@ -242,8 +232,14 @@ def render_cards(title, df, colour):
 # 7. Main action
 # ─────────────────────────────────────────────
 if st.button("🔍 Find My Universities"):
-    ...
-    # University gap analysis
+    # Country scores
+    country_scores = filtered_profile[["Country"]].copy()
+    country_scores["Total Profile %"] = filtered_profile.apply(country_score, axis=1)
+    st.subheader("🌎 Country-wise Profile Breakdown")
+    st.dataframe(country_scores.sort_values("Total Profile %", ascending=False)
+                              .reset_index(drop=True), use_container_width=True)
+
+    # University gap analysis (NOT displayed in UI)
     score_map = dict(zip(country_scores["Country"], country_scores["Total Profile %"]))
     uni = uni_df.copy()
     uni["Your Profile %"] = uni["Country"].map(score_map)
@@ -255,12 +251,10 @@ if st.button("🔍 Find My Universities"):
         "Required Profile Score","Your Profile %","Gap %"
     ]].sort_values("Gap %", ascending=False).reset_index(drop=True)
 
-    # 🔻 Remove on-screen display (keep for PDF)
-    # st.subheader("🗺️ University Gap Analysis (positive gap = profile below requirement)")
-    # st.dataframe(gap_view, use_container_width=True)
+    # 👉 Hide the actual table from Streamlit output:
     st.markdown("*(Full university gap analysis is included in your downloadable PDF report.)*")
 
-    # Categorise around the “anchor” university
+    # Categorise around anchor
     pos  = gap_view["Gap %"] > 0
     anch = gap_view[pos]["Gap %"].idxmin() if pos.any() else gap_view["Gap %"].abs().idxmin()
     tgt  = gap_view.iloc[max(0, anch-5): anch+1]
