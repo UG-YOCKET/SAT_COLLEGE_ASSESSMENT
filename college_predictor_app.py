@@ -1,5 +1,5 @@
 # ────────────────────────────────────────────────────────────────────────────────
-# YOCKET STUDY-ABROAD | UNIVERSITY FINDER 2025  (Streamlit)
+# YOCKET STUDY-ABROAD | University Readiness Assessment Test  (Streamlit)
 # Entire script with one adaptive CSS block – text is legible in **light & dark**
 # ────────────────────────────────────────────────────────────────────────────────
 import streamlit as st
