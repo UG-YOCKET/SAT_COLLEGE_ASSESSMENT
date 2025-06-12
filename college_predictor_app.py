@@ -14,7 +14,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 # 0. Page config
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="Yocket Study-Abroad | University Finder",
+    page_title="Yocket Study-Abroad | University Readiness Assessment Test",
     page_icon="🎓",
     layout="wide",
 )
@@ -77,7 +77,7 @@ body            {{background:#f5f6f7;color:#212121;font-family:'Segoe UI',sans-s
 st.markdown("""
 <div style='text-align:center'>
   <div class='hero-title'>YOCKET STUDY-ABROAD 🎓</div>
-  <div class='hero-sub'>University Finder 2025</div>
+  <div class='hero-sub'>University Readiness Assessment Test</div>
 </div>
 <div class='hero-divider'></div>
 """, unsafe_allow_html=True)
