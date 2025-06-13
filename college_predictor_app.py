@@ -280,25 +280,24 @@ if st.button("🔍 Find My Universities"):
     if not safe_df.empty:      render_cards("🛡️ Safe Universities",     safe_df,     GREEN)
 
     st.markdown("---")
-    st.markdown("### 📄 Download your full report")
-
-# Create two columns for the buttons
-col1, col2 = st.columns([2, 1])  # Create two columns
-with col1:
-    # Add the PDF download button with consistent styling
+    st.markdown("### 📄 Download your full report")Add commentMore actions
     pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
-    st.download_button("📄 Download Detailed PDF Report", pdf, file_name="university_report.pdf", mime="application/pdf")
-
-with col2:
-    # Add the "Book a Free 1:1 Counselling" button with the same style
-    st.markdown("""
-    <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank">
-        <button style="background-color: #1E88E5; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer; width: 100%; font-size: 16px;">
-            Book a Free 1:1 Counselling
-        </button>
-    </a>
-    """, unsafe_allow_html=True)
+    st.download_button("📄 Download Detailed PDF Report", pdf,
+                       file_name="university_report.pdf", mime="application/pdf")
+    
+    # Add the "Book a Free 1:1 Counselling" Button beside the existing button
+    col1, col2 = st.columns([2, 1])  # Create two columns
+    with col1:
+        pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
+        st.download_button("📄 Download Detailed PDF Report", pdf, file_name="university_report.pdf", mime="application/pdf")
+    with col2:
+        st.markdown("""
+        <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank">
+            <button style="background-color: #1E88E5; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
+                Book a Free 1:1 Counselling
+            </button>
+        </a>
+        """, unsafe_allow_html=True)
 
 else:
     st.info("Enter your details above and click **Find My Universities** to generate personalised recommendations.")
-
