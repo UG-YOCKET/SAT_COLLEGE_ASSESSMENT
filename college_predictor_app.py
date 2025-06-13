@@ -280,7 +280,7 @@ if st.button("🔍 Find My Universities"):
     if not safe_df.empty:      render_cards("🛡️ Safe Universities",     safe_df,     GREEN)
 
     st.markdown("---")
-st.markdown("### 📄 Download your full report")
+    st.markdown("### 📄 Download your full report")
 
 # Create two columns for the buttons
 col1, col2 = st.columns([2, 1])  # Create two columns
