@@ -280,10 +280,7 @@ if st.button("🔍 Find My Universities"):
     if not safe_df.empty:      render_cards("🛡️ Safe Universities",     safe_df,     GREEN)
 
     st.markdown("---")
-    st.markdown("### 📄 Download your full report")Add commentMore actions
-    pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
-    st.download_button("📄 Download Detailed PDF Report", pdf,
-                       file_name="university_report.pdf", mime="application/pdf")
+    st.markdown("### 📄 Download your full report")
     
     # Add the "Book a Free 1:1 Counselling" Button beside the existing button
     col1, col2 = st.columns([2, 1])  # Create two columns
