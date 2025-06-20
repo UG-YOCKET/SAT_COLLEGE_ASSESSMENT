@@ -99,6 +99,28 @@ st.markdown(
 )
 st.markdown("### &nbsp;")  # spacer
 
+# 4. Instructions for All Boards
+# ─────────────────────────────────────────────
+st.markdown("""
+### 📘 Instructions for Different Boards:
+
+1. **CBSE / ICSE / State Board**: Enter your percentage score directly from your final board exam results for Class 9-12.
+
+2. **IB (International Baccalaureate)**:
+   - Multiply your final grade (out of 7) by 7 and divide by the maximum possible grade (42) to convert to percentage.
+   - Example: If you scored 30 out of 42, your percentage = (30 * 7) / 42 = 50%.
+
+3. **IGSC (International General Certificate of Secondary Education)**:
+   - Use your final percentage score as given in your board exam results.
+   - If a percentage isn’t available, use the following formula: \(\text{{IB Score}} \times 2.5\) to get an estimated percentage.
+
+4. **AP (Advanced Placement)**: Enter the average of your AP test scores in percentage form. Divide the total score by 5 (maximum score per AP exam is 5).
+
+You can then enter your percentage score in the corresponding fields for Class 9-12. 
+""")
+
+# ─────────────────────────────────────────────
+
 # ─────────────────────────────────────────────
 # 4. Load & tidy data
 # ─────────────────────────────────────────────
@@ -280,21 +302,32 @@ if st.button("🔍 Find My Universities"):
     if not safe_df.empty:      render_cards("🛡️ Safe Universities",     safe_df,     GREEN)
 
     st.markdown("---")
-    st.markdown("### 📄 Download your full report")
+#    st.markdown("### 📄 Download your full report")
     
     # Add the "Book a Free 1:1 Counselling" Button beside the existing button
-    col1, col2 = st.columns([2, 1])  # Create two columns
-    with col1:
-        pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
-        st.download_button("📄 Download Detailed PDF Report", pdf, file_name="university_report.pdf", mime="application/pdf")
-    with col2:
-        st.markdown("""
-        <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank">
-            <button style="background-color: #1E88E5; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
-                Book a Free 1:1 Counselling
-            </button>
-        </a>
-        """, unsafe_allow_html=True)
 
-else:
-    st.info("Enter your details above and click **Find My Universities** to generate personalised recommendations.")
+#
+#    col1, col2 = st.columns([2, 1])  # Create two columns
+#    with col1:
+#        pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
+#        st.download_button("📄 Download Detailed PDF Report", pdf, file_name="university_report.pdf", mime="application/pdf")
+#    with col2:
+#        st.markdown("""
+#        <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank">
+#            <button style="background-color: #1E88E5; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
+#                Book a Free 1:1 Counselling
+#            </button>
+#        </a>
+#        """, unsafe_allow_html=True)
+#
+#else:
+#   st.info("Enter your details above and click **Find My Universities** to generate personalised recommendations.")
+    st.markdown("""
+    ### 📞 Next Steps:
+    Connect with our Senior Counsellor to receive a detailed assessment report, including an explanation and analysis to determine the best path toward these universities, along with a FREE roadmap for studying a bachelor's abroad.
+    """, unsafe_allow_html=True)
+
+# Create a styled button for the action
+    if st.button("Book Your FREE 1-1 Report Assessment Call Now", key="schedule_call", help="Click to schedule your free 1:1 call"):
+        st.markdown('[**Schedule your 1-1 Call Now**](https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking)', unsafe_allow_html=True)
+    
