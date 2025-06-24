@@ -329,5 +329,11 @@ if st.button("🔍 Find My Universities"):
 
 # Create a styled button for the action
     if st.button("Book Your FREE 1-1 Report Assessment Call Now", key="schedule_call", help="Click to schedule your free 1:1 call"):
-        st.markdown('[**Schedule your 1-1 Call Now**](https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking)', unsafe_allow_html=True)
-    
+        st.markdown("""
+        <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank">
+            <button style="background-color: #1E88E5; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
+                Book a Free 1:1 Counselling
+            </button>
+        </a>
+        """, unsafe_allow_html=True)
+
