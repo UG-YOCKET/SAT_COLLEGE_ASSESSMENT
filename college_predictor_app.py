@@ -101,23 +101,32 @@ st.markdown("### &nbsp;")  # spacer
 
 # 4. Instructions for All Boards
 # ─────────────────────────────────────────────
-st.markdown("""
-### 📘 Instructions for Different Boards:
+st.markdown("### 📘 Instructions for Entering Board Percentages")
 
-1. **CBSE / ICSE / State Board**: Enter your percentage score directly from your final board exam results for Class 9-12.
+with st.expander("Click to view instructions for different boards"):
+    st.markdown("""
+    **1. CBSE / ICSE / State Board:**  
+    ➤ Enter your percentage score directly as per your final board exam marksheet (Class 9–12).
 
-2. **IB (International Baccalaureate)**:
-   - Multiply your final grade (out of 7) by 7 and divide by the maximum possible grade (42) to convert to percentage.
-   - Example: If you scored 30 out of 42, your percentage = (30 * 7) / 42 = 50%.
+    **2. IB (International Baccalaureate):**  
+    ➤ Use the following formula to convert your final score to a percentage:  
+    \n  **Percentage = (Your Score ÷ 45) × 100**  
+    ➤ Example: If you scored 30 out of 45, your percentage = (30 / 45) × 100 = **66.67%**  
+    🔸 If your school provides a conversion certificate, upload or refer to that as priority.
 
-3. **IGSC (International General Certificate of Secondary Education)**:
-   - Use your final percentage score as given in your board exam results.
-   - If a percentage isn’t available, use the following formula: \(\text{{IB Score}} \times 2.5\) to get an estimated percentage.
+    **3. IGCSE (International General Certificate of Secondary Education):**  
+    ➤ Use the final percentage score if provided by your school.  
+    ➤ If only grades are provided, use the guideline:  
+    \n  **Estimated % = (IB Score × 2.5)**
 
-4. **AP (Advanced Placement)**: Enter the average of your AP test scores in percentage form. Divide the total score by 5 (maximum score per AP exam is 5).
+    **4. AP (Advanced Placement):**  
+    ➤ Calculate the average score from all AP exams.  
+    \n  **Percentage = (Your Average Score ÷ 5) × 100**  
+    ➤ Example: If your average AP score is 4, percentage = (4 / 5) × 100 = **80%**
 
-You can then enter your percentage score in the corresponding fields for Class 9-12. 
-""")
+    ---
+    ⚠️ *Note: These are standard guidelines. Always follow your target university’s conversion policy if specified.*
+    """)
 
 # ─────────────────────────────────────────────
 
