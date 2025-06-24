@@ -105,26 +105,25 @@ st.markdown("### 📘 Instructions for Entering Board Percentages")
 
 with st.expander("Click to view instructions for different boards"):
     st.markdown("""
-    **1. CBSE / ICSE / State Board:**  
+    1. CBSE / ICSE / State Board:  
     ➤ Enter your percentage score directly as per your final board exam marksheet (Class 9–12).
 
-    **2. IB (International Baccalaureate):**  
+    2. IB (International Baccalaureate): 
     ➤ Use the following formula to convert your final score to a percentage:  
     \n  **Percentage = (Your Score ÷ 45) × 100**  
     ➤ Example: If you scored 30 out of 45, your percentage = (30 / 45) × 100 = **66.67%**  
     🔸 If your school provides a conversion certificate, upload or refer to that as priority.
 
-    **3. IGCSE (International General Certificate of Secondary Education):**  
+    3. IGCSE (International General Certificate of Secondary Education): 
     ➤ Use the final percentage score if provided by your school.  
     ➤ If only grades are provided, use the guideline:  
     \n  **Estimated % = (IB Score × 2.5)**
 
-    **4. AP (Advanced Placement):**  
+    4. AP (Advanced Placement):
     ➤ Calculate the average score from all AP exams.  
     \n  **Percentage = (Your Average Score ÷ 5) × 100**  
     ➤ Example: If your average AP score is 4, percentage = (4 / 5) × 100 = **80%**
 
-    ---
     ⚠️ *Note: These are standard guidelines. Always follow your target university’s conversion policy if specified.*
     """)
 
