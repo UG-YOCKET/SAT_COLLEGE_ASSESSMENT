@@ -121,25 +121,25 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
     </div>
 
     <div class="instruction-box">
-        <strong>📌 IB (International Baccalaureate)</strong><br>
-        ➤ Use this formula: <br>
-        <code>Percentage = (Your Final Score ÷ 45) × 100</code><br>
-        ➤ Example: If you scored 36 out of 45 → <code>(36 ÷ 45) × 100 = 80%</code><br>
+        <strong>📌 IB (International Baccalaureate)</strong>
+        ➤ Use this formula: 
+        <code>Percentage = (Your Final Score ÷ 45) × 100</code>
+        ➤ Example: If you scored 36 out of 45 → <code>(36 ÷ 45) × 100 = 80%</code>
         ✅ If your school provides a percentage or conversion certificate, use that directly.
     </div>
 
     <div class="instruction-box">
-        <strong>📌 IGCSE</strong><br>
-        ➤ If your school gives a percentage, enter that.<br>
-        ➤ Otherwise, use: <br>
+        <strong>📌 IGCSE</strong>
+        ➤ If your school gives a percentage, enter that.
+        ➤ Otherwise, use: 
         <code>Estimated % = (Your Grade × 2.5)</code>
     </div>
 
     <div class="instruction-box">
         <strong>📌 AP (Advanced Placement)</strong><br>
-        ➤ Calculate the average of your AP scores (each out of 5).<br>
-        ➤ Use this formula: <br>
-        <code>Percentage = (Average Score ÷ 5) × 100</code><br>
+        ➤ Calculate the average of your AP scores (each out of 5).
+        ➤ Use this formula: 
+        <code>Percentage = (Average Score ÷ 5) × 100</code>
         ➤ Example: If average score = 4 → <code>(4 ÷ 5) × 100 = 80%</code>
     </div>
 
