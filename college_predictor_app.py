@@ -155,7 +155,7 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
 
 
     <div class="note">
-        ⚠️ <em>Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.<br></em>
+        ⚠️ <em>Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.<br></em><br>
     </div>
     """, unsafe_allow_html=True)
 
