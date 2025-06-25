@@ -106,13 +106,15 @@ st.markdown("### 📘 Instructions for Entering Board Percentages")
 with st.expander("📋 How to calculate your percentage (Board-wise)?"):
     st.markdown("""
     <style>
+        /* General Styles for both modes */
         .instruction-box {
-            background-color: #fefefe;
             padding: 12px 18px;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
             margin-bottom: 12px;
             font-size: 15px;
+            background-color: var(--st-bg-color); /* Background changes dynamically */
+            color: var(--st-text-color); /* Text color changes dynamically */
         }
         .formula {
             background-color: #f4f4f4;
@@ -122,6 +124,7 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
             font-family: monospace;
             display: inline-block;
             margin: 6px 0 4px 0;
+            color: #333;
         }
         .note {
             font-size: 13px;
