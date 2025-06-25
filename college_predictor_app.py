@@ -153,15 +153,9 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
         <div class="formula">Estimated % = Your Grade × 2.5</div>
     </div>
 
-    <div class="instruction-box">
-        <strong>📌 AP (Advanced Placement)</strong><br>
-        ➤ Calculate the average of your AP exam scores (out of 5), then use:<br>
-        <div class="formula">Percentage = (Average Score ÷ 5) × 100</div><br>
-        ➤ Example: If average score = 4 → <div class="formula">(4 ÷ 5) × 100 = 80%</div>
-    </div>
 
     <div class="note">
-        ⚠️ <em>Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.</em></br>
+        ⚠️ <em>Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.<br></em>
     </div>
     """, unsafe_allow_html=True)
 
