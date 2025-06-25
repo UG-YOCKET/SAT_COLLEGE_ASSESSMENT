@@ -114,7 +114,7 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
             margin-bottom: 12px;
             font-size: 15px;
             background-color: var(--st-bg-color); /* Background changes dynamically */
-            color: var(--st-text-color); /* Text color changes dynamically */
+            color: black; /* Set text color to black for visibility */
         }
         .formula {
             background-color: #f4f4f4;
@@ -124,11 +124,11 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
             font-family: monospace;
             display: inline-block;
             margin: 6px 0 4px 0;
-            color: #333;
+            color: black; /* Set formula text to black */
         }
         .note {
             font-size: 13px;
-            color: #555;
+            color: black; /* Set note text to black */
             margin-top: 6px;
         }
     </style>
@@ -164,6 +164,7 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
         Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.
     </div>
     """, unsafe_allow_html=True)
+
 
 # ─────────────────────────────────────────────
 
