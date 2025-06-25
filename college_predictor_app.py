@@ -108,60 +108,60 @@ with st.expander("📋 How to calculate your percentage (Board-wise)?"):
     <style>
         /* General Styles for both modes */
         .instruction-box {
-            padding: 12px 18px;
+            padding: 15px;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
             margin-bottom: 12px;
-            font-size: 15px;
-            background-color: var(--st-bg-color); /* Background changes dynamically */
-            color: black; /* Set text color to black for visibility */
+            font-size: 16px;
+            background-color: #ffffff; /* White background to ensure readability */
+            color: #000000; /* Set text color to black for high contrast */
         }
         .formula {
             background-color: #f4f4f4;
             border: 1px solid #ccc;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 5px;
             font-family: monospace;
             display: inline-block;
-            margin: 6px 0 4px 0;
-            color: black; /* Set formula text to black */
+            margin: 6px 0 6px 0;
+            color: #000000; /* Ensure formula text is black */
         }
         .note {
-            font-size: 13px;
-            color: black; /* Set note text to black */
-            margin-top: 6px;
+            font-size: 14px;
+            color: #555555; /* Set note text color to a dark grey for better visibility */
+            margin-top: 10px;
         }
     </style>
 
     <div class="instruction-box">
-        <strong>CBSE / ICSE / State Board</strong><br>
-        Enter the percentage exactly as mentioned in your marksheet (Class 9 to 12).
+        <strong>📌 CBSE / ICSE / State Board</strong><br>
+        ➤ Enter the percentage exactly as mentioned in your marksheet (Class 9 to 12).
     </div>
 
     <div class="instruction-box">
-        <strong>IB (International Baccalaureate)</strong><br>
-        Use the following formula to convert your final score:<br>
+        <strong>📌 IB (International Baccalaureate)</strong><br>
+        ➤ Use the following formula to convert your final score to percentage:<br>
         <div class="formula">Percentage = (Your Score ÷ 45) × 100</div><br>
-        Example: If you scored 36 out of 45 → <div class="formula">(36 ÷ 45) × 100 = 80%</div><br>
-        If your school provides a conversion certificate or percentage, use that instead.
+        ➤ Example: If you scored 36 out of 45 → <div class="formula">(36 ÷ 45) × 100 = 80%</div><br>
+        ✅ If your school provides a conversion certificate or percentage, use that instead.
     </div>
 
     <div class="instruction-box">
-        <strong>IGCSE</strong><br>
-        If your school provides a percentage, use it directly.<br>
-        Otherwise, estimate using:<br>
+        <strong>📌 IGCSE</strong><br>
+        ➤ If your school provides a percentage, use it directly.<br>
+        ➤ Otherwise, estimate using:<br>
         <div class="formula">Estimated % = Your Grade × 2.5</div>
     </div>
 
     <div class="instruction-box">
-        <strong>AP (Advanced Placement)</strong><br>
-        Calculate the average of your AP exam scores (out of 5), then use:<br>
+        <strong>📌 AP (Advanced Placement)</strong><br>
+        ➤ Calculate the average of your AP exam scores (out of 5), then use:<br>
         <div class="formula">Percentage = (Average Score ÷ 5) × 100</div><br>
-        Example: If average score = 4 → <div class="formula">(4 ÷ 5) × 100 = 80%</div>
+        ➤ Example: If average score = 4 → <div class="formula">(4 ÷ 5) × 100 = 80%</div>
     </div>
 
     <div class="note">
-        Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.
+        ⚠️ <em>Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.</em>
     </div>
     """, unsafe_allow_html=True)
 
