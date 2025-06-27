@@ -345,7 +345,7 @@ if st.button("🔍 Find My Universities"):
     st.markdown("---")
     st.markdown("### 📄 Download your full report")
     
-    Add the "Book a Free 1:1 Counselling" Button beside the existing button
+      Add the "Book a Free 1:1 Counselling" Button beside the existing button
 
 
     col1, col2 = st.columns([2, 1])  # Create two columns
