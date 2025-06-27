@@ -101,66 +101,23 @@ st.markdown("### &nbsp;")  # spacer
 
 # 4. Instructions for All Boards
 # ─────────────────────────────────────────────
-st.markdown("### 📘 Instructions for Entering Board Percentages")
+st.markdown("""
+### 📘 Instructions for Different Boards:
 
-with st.expander("📋 How to calculate your percentage (Board-wise)?"):
-    st.markdown("""
-    <style>
-        .instruction-box {
-            background-color: #fefefe;
-            padding: 12px 18px;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 12px;
-            font-size: 15px;
-        }
-        .formula {
-            background-color: #f4f4f4;
-            border: 1px solid #ccc;
-            padding: 6px 10px;
-            border-radius: 5px;
-            font-family: monospace;
-            display: inline-block;
-            margin: 6px 0 4px 0;
-        }
-        .note {
-            font-size: 13px;
-            color: #555;
-            margin-top: 6px;
-        }
-    </style>
+1. **CBSE / ICSE / State Board**: Enter your percentage score directly from your final board exam results for Class 9-12.
 
-    <div class="instruction-box">
-        <strong>CBSE / ICSE / State Board</strong><br>
-        Enter the percentage exactly as mentioned in your marksheet (Class 9 to 12).
-    </div>
+2. **IB (International Baccalaureate)**:
+   - Multiply your final grade (out of 7) by 7 and divide by the maximum possible grade (42) to convert to percentage.
+   - Example: If you scored 30 out of 42, your percentage = (30 * 7) / 42 = 50%.
 
-    <div class="instruction-box">
-        <strong>IB (International Baccalaureate)</strong><br>
-        Use the following formula to convert your final score:<br>
-        <div class="formula">Percentage = (Your Score ÷ 45) × 100</div><br>
-        Example: If you scored 36 out of 45 → <div class="formula">(36 ÷ 45) × 100 = 80%</div><br>
-        If your school provides a conversion certificate or percentage, use that instead.
-    </div>
+3. **IGSC (International General Certificate of Secondary Education)**:
+   - Use your final percentage score as given in your board exam results.
+   - If a percentage isn’t available, use the following formula: \(\text{{IB Score}} \times 2.5\) to get an estimated percentage.
 
-    <div class="instruction-box">
-        <strong>IGCSE</strong><br>
-        If your school provides a percentage, use it directly.<br>
-        Otherwise, estimate using:<br>
-        <div class="formula">Estimated % = Your Grade × 2.5</div>
-    </div>
+4. **AP (Advanced Placement)**: Enter the average of your AP test scores in percentage form. Divide the total score by 5 (maximum score per AP exam is 5).
 
-    <div class="instruction-box">
-        <strong>AP (Advanced Placement)</strong><br>
-        Calculate the average of your AP exam scores (out of 5), then use:<br>
-        <div class="formula">Percentage = (Average Score ÷ 5) × 100</div><br>
-        Example: If average score = 4 → <div class="formula">(4 ÷ 5) × 100 = 80%</div>
-    </div>
-
-    <div class="note">
-        Note: These are general guidelines. Always follow the official conversion rules provided by your target university or school.
-    </div>
-    """, unsafe_allow_html=True)
+You can then enter your percentage score in the corresponding fields for Class 9-12. 
+""")
 
 # ─────────────────────────────────────────────
 
@@ -371,47 +328,6 @@ if st.button("🔍 Find My Universities"):
     """, unsafe_allow_html=True)
 
 # Create a styled button for the action
-    st.markdown("""
-        <style>
-        .left-align-button {
-            text-align: left;
-            margin-top: 20px;
-            margin-left: 0;
-        }
-
-        .professional-btn {
-            background: linear-gradient(90deg, #1E88E5, #1565C0);
-            color: white !important;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 10px;
-            border: none;
-            text-decoration: none !important;
-            display: inline-block;
-            transition: background 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
-        }
-
-        .professional-btn:hover {
-            background: linear-gradient(90deg, #1565C0, #0D47A1);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
-            text-decoration: none !important;
-        }
-
-        a.professional-btn:link,
-        a.professional-btn:visited,
-        a.professional-btn:hover,
-        a.professional-btn:active {
-            text-decoration: none !important;
-            color: white !important;
-        }
-        </style>
-
-        <div class="left-align-button">
-            <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank" class="professional-btn">
-                📞 Book Your FREE 1-1 Counselling Call
-            </a>
-        </div>
-    """, unsafe_allow_html=True)
+    if st.button("Book Your FREE 1-1 Report Assessment Call Now", key="schedule_call", help="Click to schedule your free 1:1 call"):
+        st.markdown('[**Schedule your 1-1 Call Now**](https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking)', unsafe_allow_html=True)
+    
