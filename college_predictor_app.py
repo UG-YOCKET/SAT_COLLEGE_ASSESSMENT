@@ -343,73 +343,73 @@ if st.button("🔍 Find My Universities"):
     if not safe_df.empty:      render_cards("🛡️ Safe Universities",     safe_df,     GREEN)
 
     st.markdown("---")
-#    st.markdown("### 📄 Download your full report")
+    st.markdown("### 📄 Download your full report")
     
-    # Add the "Book a Free 1:1 Counselling" Button beside the existing button
+     Add the "Book a Free 1:1 Counselling" Button beside the existing button
 
-#
-#    col1, col2 = st.columns([2, 1])  # Create two columns
-#    with col1:
-#        pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
-#        st.download_button("📄 Download Detailed PDF Report", pdf, file_name="university_report.pdf", mime="application/pdf")
-#    with col2:
-#        st.markdown("""
-#        <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank">
-#            <button style="background-color: #1E88E5; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
-#                Book a Free 1:1 Counselling
-#            </button>
-#        </a>
-#        """, unsafe_allow_html=True)
-#
-#else:
-#   st.info("Enter your details above and click **Find My Universities** to generate personalised recommendations.")
-    st.markdown("""
-    ### 📞 Next Steps:
-    Connect with our Senior Counsellor to receive a detailed assessment report, including an explanation and analysis to determine the best path toward these universities, along with a FREE roadmap for studying a bachelor's abroad.
-    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns([2, 1])  # Create two columns
+    with col1:
+        pdf = build_pdf(country_scores, gap_view, ambitious_df, target_df, safe_df)
+        st.download_button("📄 Download Detailed PDF Report", pdf, file_name="university_report.pdf", mime="application/pdf")
+    with col2:
+        st.markdown("""
+        <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank">
+            <button style="background-color: #1E88E5; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;">
+                Book a Free 1:1 Counselling
+            </button>
+        </a>
+        """, unsafe_allow_html=True)
+
+else:
+   st.info("Enter your details above and click **Find My Universities** to generate personalised recommendations.")
+#    st.markdown("""
+#    ### 📞 Next Steps:
+#    Connect with our Senior Counsellor to receive a detailed assessment report, including an explanation and analysis to determine the best path toward these universities, along with a FREE roadmap for studying a bachelor's abroad.
+#    """, unsafe_allow_html=True)
 
 # Create a styled button for the action
-    st.markdown("""
-        <style>
-        .left-align-button {
-            text-align: left;
-            margin-top: 20px;
-            margin-left: 0;
-        }
+#    st.markdown("""
+#        <style>
+#        .left-align-button {
+#            text-align: left;
+#            margin-top: 20px;
+#            margin-left: 0;
+#        }
+#
+#        .professional-btn {
+#            background: linear-gradient(90deg, #1E88E5, #1565C0);
+#            color: white !important;
+#            padding: 14px 28px;
+#            font-size: 16px;
+#            font-weight: 600;
+#            border-radius: 10px;
+#            border: none;
+#            text-decoration: none !important;
+#            display: inline-block;
+#            transition: background 0.3s ease, transform 0.2s ease;
+#            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+#        }
+#
+#        .professional-btn:hover {
+#            background: linear-gradient(90deg, #1565C0, #0D47A1);
+#            transform: translateY(-2px);
+#            box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
+#            text-decoration: none !important;
+#        }
 
-        .professional-btn {
-            background: linear-gradient(90deg, #1E88E5, #1565C0);
-            color: white !important;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 10px;
-            border: none;
-            text-decoration: none !important;
-            display: inline-block;
-            transition: background 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
-        }
+#        a.professional-btn:link,
+#        a.professional-btn:visited,
+#        a.professional-btn:hover,
+#        a.professional-btn:active {
+#            text-decoration: none !important;
+#            color: white !important;
+#        }
+#        </style>
 
-        .professional-btn:hover {
-            background: linear-gradient(90deg, #1565C0, #0D47A1);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
-            text-decoration: none !important;
-        }
-
-        a.professional-btn:link,
-        a.professional-btn:visited,
-        a.professional-btn:hover,
-        a.professional-btn:active {
-            text-decoration: none !important;
-            color: white !important;
-        }
-        </style>
-
-        <div class="left-align-button">
-            <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank" class="professional-btn">
-                📞 Book Your FREE 1-1 Counselling Call
-            </a>
-        </div>
-    """, unsafe_allow_html=True)
+#        <div class="left-align-button">
+#            <a href="https://calendly.com/ugadmissions-yocket/university-readiness-counselling-booking" target="_blank" class="professional-btn">
+#                📞 Book Your FREE 1-1 Counselling Call
+#            </a>
+#        </div>
+#    """, unsafe_allow_html=True)
